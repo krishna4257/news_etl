@@ -18,14 +18,17 @@ This project is an **ETL (Extract, Transform, Load) pipeline** that **automates*
 
 ## 📂 Project Structure
 ```
-├── dags/
-│   ├── automate.py   # DAG definition for ETL pipeline orchestration
-│   ├── extract.py    # Extracts news data from NewsAPI
-│   ├── transform.py  # Transforms JSON data into structured format
-│   ├── load.py       # Loads structured data into NeonDB
-├── docker-compose.yml  # Docker setup for Airflow
-├── requirements.txt     # Required Python libraries
-├── README.md            # Project documentation
+news_etl/
+     │── pycache/ # Python cache files (ignore)
+     │── venv/ # Virtual environment (ignore)
+     │── .gitignore # Git ignore file
+     │── docker-compose.yaml # Docker setup for Airflow
+     │── extract.py # Extracts news data from NewsAPI
+     │── load.py # Loads structured data into NeonDB
+     │── transform.py # Transforms JSON data into structured format
+     │── automate.py # DAG definition for Airflow orchestration
+     │── requirements.txt # Required Python libraries
+     │── README.md # Project documentation
 ```
 
 ---
