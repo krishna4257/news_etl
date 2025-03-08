@@ -1,15 +1,15 @@
 # 📰 News ETL Pipeline Using Airflow, Docker, and PostgreSQL (NeonDB)
 
 ## 📌 Overview
-This project is an **ETL (Extract, Transform, Load) pipeline** that **automates** the process of fetching news data from **NewsAPI**, transforming it into a structured format, and loading it into a **PostgreSQL cloud database (NeonDB)**. The entire pipeline is orchestrated using **Apache Airflow**, deployed within a **Docker container**.
+This project is an **ETL (Extract, Transform, Load) pipeline** that **automates** the process of fetching news data from **[NewsAPI](https://newsapi.org)**, transforming it into a structured format, and loading it into a **PostgreSQL cloud database ([NeonDB](https://neon.tech))**. The entire pipeline is orchestrated using **Apache Airflow**, deployed within a **Docker container**.
 
 ---
 
 ## 🛠 Technologies Used
 - **Python** – For writing ETL scripts  
-- **NewsAPI (Open Source)** – For extracting news articles  
+- **[NewsAPI](https://newsapi.org) (Open Source)** – For extracting news articles  
 - **Pandas** – For transforming JSON data into structured tabular format  
-- **PostgreSQL (NeonDB, Open Source)** – For storing the transformed data  
+- **PostgreSQL ([NeonDB](https://neon.tech), Open Source)** – For storing the transformed data  
 - **Apache Airflow** – For scheduling and orchestrating ETL jobs  
 - **Docker** – For containerizing the Airflow environment  
 - **AWS EC2 (Optional)** – For deploying the solution in the cloud  
@@ -52,16 +52,16 @@ This project is an **ETL (Extract, Transform, Load) pipeline** that **automates*
 
 ---
 
-### 2️⃣ Extract: Getting News Data from NewsAPI
+### 2️⃣ Extract: Getting News Data from [NewsAPI](https://newsapi.org)
 📌 **File:** `extract.py`  
-📌 **Goal:** Fetch live news data from **NewsAPI** and store it as a JSON object.
+📌 **Goal:** Fetch live news data from **[NewsAPI](https://newsapi.org)** and store it as a JSON object.
 
 ✅ **Why?**  
 - We need real-time news data for processing and analysis.  
-- NewsAPI provides an **open-source** API to fetch the latest news.
+- **[NewsAPI](https://newsapi.org)** provides an **open-source** API to fetch the latest news.
 
 📌 **How it Works?**
-- Makes an HTTP request to **NewsAPI**
+- Makes an HTTP request to **[NewsAPI](https://newsapi.org)**
 - Retrieves news articles in **JSON format**
 - Returns the extracted data for further processing
 
@@ -76,6 +76,7 @@ def extract_news():
     news_data = response.json()
     return news_data
 ```
+![image](https://github.com/user-attachments/assets/e2160e93-6d2b-4abc-b9c2-f04b85452037)
 
 ---
 
@@ -100,19 +101,20 @@ def transform_news(news_data):
     df = pd.DataFrame(articles, columns=["source", "author", "title", "description", "url", "publishedAt"])
     return df
 ```
+![image](https://github.com/user-attachments/assets/72e0e4ba-3d88-43c1-9e4f-326fa3b31b83)
 
 ---
 
-### 4️⃣ Load: Storing Data into NeonDB
+### 4️⃣ Load: Storing Data into [NeonDB](https://neon.tech)
 📌 **File:** `load.py`  
-📌 **Goal:** Store the **structured DataFrame** into a **PostgreSQL cloud database (NeonDB)**.
+📌 **Goal:** Store the **structured DataFrame** into a **PostgreSQL cloud database ([NeonDB](https://neon.tech))**.
 
 ✅ **Why?**  
 - Storing data in a **relational database** makes it easier to **query and analyze**.
-- **NeonDB** is a **serverless PostgreSQL** service, reducing management overhead.
+- **[NeonDB](https://neon.tech)** is a **serverless PostgreSQL** service, reducing management overhead.
 
 📌 **How it Works?**
-- Establishes a connection to **NeonDB**  
+- Establishes a connection to **[NeonDB](https://neon.tech)**  
 - **Creates a table** if it doesn’t exist  
 - **Inserts transformed news data** into the table  
 
@@ -146,6 +148,9 @@ def load_news_to_neon(transformed_data):
     conn.commit()
     conn.close()
 ```
+![image](https://github.com/user-attachments/assets/c55e7052-7639-4ab6-8447-e85b2b0222da)
+
+![image](https://github.com/user-attachments/assets/a3c96894-8b4f-4cf9-87ec-3b8f9d6d91ce)
 
 ---
 
@@ -163,48 +168,9 @@ def load_news_to_neon(transformed_data):
 - **Runs tasks sequentially**: **extract → transform → load**
 - **Schedules** the pipeline **daily at 9 AM UTC**  
 
-```python
-from airflow import DAG
-from airflow.operators.python import PythonOperator
-from datetime import datetime, timedelta
-from extract import extract_news
-from transform import transform_news
-from load import load_news_to_neon
-
-default_args = {
-    "owner": "airflow",
-    "start_date": datetime(2024, 1, 1),
-    "retries": 2,
-    "retry_delay": timedelta(minutes=5),
-}
-
-dag = DAG(
-    "news_etl_pipeline",
-    default_args=default_args,
-    schedule_interval="0 9 * * *",  # Runs daily at 9 AM UTC
-    catchup=False,
-)
-
-extract_task = PythonOperator(
-    task_id="extract_task",
-    python_callable=extract_news,
-    dag=dag,
-)
-
-transform_task = PythonOperator(
-    task_id="transform_task",
-    python_callable=transform_news,
-    dag=dag,
-)
-
-load_task = PythonOperator(
-    task_id="load_task",
-    python_callable=load_news_to_neon,
-    dag=dag,
-)
-
-extract_task >> transform_task >> load_task
-```
+---
+![image](https://github.com/user-attachments/assets/d05fab06-b969-47a9-a6d8-955ef0d49555)
+![image](https://github.com/user-attachments/assets/fda93ef9-c2f0-43ae-99e0-f2ec374cbe5a)
 
 ---
 
@@ -237,7 +203,7 @@ docker exec -it container_id airflow dags trigger news_etl_pipeline
 ---
 
 ## 🚀 Conclusion
-🎉 This project successfully **automates news data extraction, transformation, and storage** using **Airflow, Docker, and NeonDB**.
+🎉 This project successfully **automates news data extraction, transformation, and storage** using **[NewsAPI](https://newsapi.org), Airflow, Docker, and [NeonDB](https://neon.tech)**.
 
 📌 **Next Steps:**  
 - **Add Data Visualization**
@@ -245,4 +211,3 @@ docker exec -it container_id airflow dags trigger news_etl_pipeline
 - **Scale with Cloud Deployment**
 
 🔥 **Happy Coding!** 🚀
-
