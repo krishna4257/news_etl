@@ -1,8 +1,3 @@
-Here is the **README.md** script formatted for GitHub. You can **copy-paste** this directly into your repository. 🚀  
-
----
-
-```md
 # 📰 News ETL Pipeline Using Airflow, Docker, and PostgreSQL (NeonDB)
 
 ## 📌 Overview
@@ -250,6 +245,4 @@ docker exec -it container_id airflow dags trigger news_etl_pipeline
 - **Scale with Cloud Deployment**
 
 🔥 **Happy Coding!** 🚀
-```
 
-✅ **Now you can copy-paste this into your `README.md` on GitHub!** 😊 🚀
