@@ -5,7 +5,7 @@ import extract
 import transform
 
 # Your Neon Database Connection URL
-NEON_DB_URL = "postgresql://neondb_owner:npg_MK6o1dlcgmAu@ep-lingering-feather-a5hcyr4n-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
+NEON_DB_URL = "your_db_connection_string"
 
 def load_news_to_neon(news_data):
     """Load transformed news data into NeonDB (PostgreSQL) using SQLAlchemy."""
