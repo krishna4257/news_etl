@@ -1,7 +1,7 @@
 import requests
 import json
 
-API_KEY = "35cd35aa81314464a49e4af8253be4d5"
+API_KEY = "your_api_key"
 URL = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}"
 
 def extract_news():
